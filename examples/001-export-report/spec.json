@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "id": "001-export-report",
+  "title": "Reporte determinista de etiquetas activas",
+  "status": "implemented",
+  "requirements": [
+    {
+      "id": "R-001",
+      "statement": "Incluir solamente etiquetas activas, ordenadas lexicográficamente y con conteo consistente, sin modificar la entrada."
+    },
+    {
+      "id": "R-002",
+      "statement": "Aceptar entrada vacía y rechazar registros inválidos con ValueError."
+    }
+  ],
+  "acceptance": [
+    {
+      "id": "AC-001",
+      "requirement_ids": [
+        "R-001"
+      ],
+      "given": "Tres etiquetas, dos activas, en orden mezclado",
+      "when": "Se genera el reporte",
+      "then": "Se devuelven solo las dos activas ordenadas y count=2; la entrada permanece igual",
+      "test_refs": [
+        {
+          "path": "example-code/test_report.py",
+          "assertion": "ReportTests.test_active_only_sorted_and_no_mutation"
+        }
+      ]
+    },
+    {
+      "id": "AC-002",
+      "requirement_ids": [
+        "R-002"
+      ],
+      "given": "Lista vacía o registros con active no booleano/nombre vacío/campos incorrectos",
+      "when": "Se genera el reporte",
+      "then": "La lista vacía produce count=0; entradas inválidas lanzan ValueError",
+      "test_refs": [
+        {
+          "path": "example-code/test_report.py",
+          "assertion": "ReportTests.test_empty y test_invalid_input"
+        }
+      ]
+    }
+  ],
+  "tasks": [
+    {
+      "id": "T-001",
+      "title": "Implementar filtrado, orden y prueba de inmutabilidad",
+      "requirement_ids": [
+        "R-001"
+      ],
+      "acceptance_ids": [
+        "AC-001"
+      ],
+      "status": "done"
+    },
+    {
+      "id": "T-002",
+      "title": "Validar esquema de entrada y probar errores y vacío",
+      "requirement_ids": [
+        "R-002"
+      ],
+      "acceptance_ids": [
+        "AC-002"
+      ],
+      "status": "done"
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "schema_version": 1,
+  "adapter": "generic",
+  "specs_dir": "specs",
+  "commands": {}
+}

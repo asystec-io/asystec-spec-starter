@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "adapter": "laravel",
+  "specs_dir": "specs",
+  "commands": {
+    "test": [
+      "php",
+      "artisan",
+      "test"
+    ],
+    "lint": [
+      "vendor/bin/pint",
+      "--test"
+    ]
+  }
+}

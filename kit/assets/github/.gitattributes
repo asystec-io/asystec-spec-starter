@@ -1,0 +1,4 @@
+.gitattributes text eol=lf
+pull_request_template.md text eol=lf
+ISSUE_TEMPLATE/spec-feature.md text eol=lf
+workflows/spec-validation.yml text eol=lf

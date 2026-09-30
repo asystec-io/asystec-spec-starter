@@ -1,0 +1,24 @@
+{
+  "files": {
+    ".gitattributes": "d60f352d0db1404c70afb4bb8b2ca3fd1c610572aa40720e8a0b7baa7885418c",
+    "GUIDE.md": "c63b40298792736406c6c06efaffcbd094bcae15ca021426f58c3842f3491dda",
+    "LICENSE": "fa3c16a8ff0e29c6544ddbba728298a9f9bf4cf60d07c7f5ea772b2622c975f6",
+    "adapters/generic.json": "b2de3ffe411cd1f8f5dbd47c077e328bcaeeedc587894210edf8827bd1dead14",
+    "adapters/laravel.json": "2c57e1465521a2bab4b48ed50431a1f141c37a68707c88975386d3c15bf76942",
+    "assets/AGENTS.md": "99a10b5d5640d6dcfe57ae2cbc070bb2f7ff5ed5ae7a64fe36858e6ced56d7bd",
+    "assets/github/.gitattributes": "0fd72c65822b5d5ddfb1b2bd932183bb9be55ca9beaa931467419b4a4a9ee45e",
+    "assets/github/ISSUE_TEMPLATE/spec-feature.md": "ef246e94eb2d4342bfb6fc42605f7e97305962012c38416783db6b39629e1b78",
+    "assets/github/pull_request_template.md": "8796bdc7300beb84dc65e72db1934629d733d2a6f80d3c277eda71090b32ae26",
+    "assets/github/workflows/spec-validation.yml": "f648319cd1abc41a64398527b819a2c699ff1ee060f11516e6ac7243dbf406d1",
+    "specctl.py": "c4f23ad8eee6bee8339bf2a72986e66052c122b5ea63981491871954f56e8195",
+    "templates/acceptance.md": "c4388aba7e81b55a39f7b0de6a469cd69419f3910ba120ebc95c11bc458f85c3",
+    "templates/change.md": "d9299e8700e2b26c433fd18d4dd2e5b06fda0556e09bb54195ca21eb148feb74",
+    "templates/plan.md": "00a10a8465af99429edc551795d103516628b7b86b67101836ea918b6de07aea",
+    "templates/spec.json": "0a4fe712f8deffd8b14f4a84294b4b96ba3f35acd1a74b60dd053614d734f310",
+    "templates/spec.md": "bf55f5a584c90acf437905623406e864a4c1bcb7c7f3191c9b63db7e20bb8852",
+    "templates/tasks.md": "2b594145f9aa4ad2052858d791796d0ea4735e2396d14e04d7707d3062df3587"
+  },
+  "package": "asystec-spec-starter",
+  "schema_version": 1,
+  "version": "0.1.0"
+}

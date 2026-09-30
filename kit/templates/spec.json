@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "id": "{{FEATURE_ID}}",
+  "title": "[TODO] Resultado observable",
+  "status": "draft",
+  "requirements": [
+    {
+      "id": "R-001",
+      "statement": "[TODO] Necesidad verificable"
+    }
+  ],
+  "acceptance": [
+    {
+      "id": "AC-001",
+      "requirement_ids": [
+        "R-001"
+      ],
+      "given": "[TODO] Contexto",
+      "when": "[TODO] Acción",
+      "then": "[TODO] Resultado",
+      "test_refs": []
+    }
+  ],
+  "tasks": [
+    {
+      "id": "T-001",
+      "title": "[TODO] Implementar y probar",
+      "requirement_ids": [
+        "R-001"
+      ],
+      "acceptance_ids": [
+        "AC-001"
+      ],
+      "status": "todo"
+    }
+  ]
+}
