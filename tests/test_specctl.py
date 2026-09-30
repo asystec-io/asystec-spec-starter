@@ -43,20 +43,20 @@ class StarterTests(unittest.TestCase):
         return self.root / 'specs/001-demo'
 
     def load_spec(self, directory):
-        return json.loads((directory / 'spec.json').read_text())
+        return json.loads((directory / 'spec.json').read_text(encoding='utf-8'))
 
     def save_spec(self, directory, data):
-        (directory / 'spec.json').write_text(json.dumps(data))
+        (directory / 'spec.json').write_text(json.dumps(data), encoding='utf-8')
 
     def complete(self, directory):
         for path in directory.glob('*.md'):
-            path.write_text('Decisión revisada, sin preguntas pendientes.\n')
+            path.write_text('Decisión revisada, sin preguntas pendientes.\n', encoding='utf-8')
         data = self.load_spec(directory)
         data['title'] = 'Resultado'
         data['requirements'][0]['statement'] = 'El resultado es estable'
         data['acceptance'][0].update(given='Contexto', when='Acción', then='Resultado', test_refs=[{'path':'test_demo.py','assertion':'resultado esperado'}])
         data['tasks'][0]['title'] = 'Implementar resultado'
-        (self.root / 'test_demo.py').write_text('assert True\n')
+        (self.root / 'test_demo.py').write_text('assert True\n', encoding='utf-8')
         self.save_spec(directory, data)
         return data
 
@@ -75,7 +75,7 @@ class StarterTests(unittest.TestCase):
 
     def test_collision_blocks_all_writes(self):
         (self.root / '.github').mkdir()
-        (self.root / '.github/pull_request_template.md').write_text('user content')
+        (self.root / '.github/pull_request_template.md').write_text('user content', encoding='utf-8')
         before = snapshot(self.root)
         self.cli('install', '--github', '--apply', success=False)
         self.assertEqual(snapshot(self.root), before)
@@ -90,9 +90,9 @@ class StarterTests(unittest.TestCase):
     def test_config_preserved_and_adapter_is_informational(self):
         self.install('--adapter', 'laravel')
         config = self.root / '.specify/project.json'
-        data = json.loads(config.read_text())
+        data = json.loads(config.read_text(encoding='utf-8'))
         data['commands']['test'] = ['echo', 'custom']
-        config.write_text(json.dumps(data))
+        config.write_text(json.dumps(data), encoding='utf-8')
         before = config.read_bytes()
         self.cli('update', '--apply')
         self.assertEqual(config.read_bytes(), before)
@@ -111,7 +111,7 @@ class StarterTests(unittest.TestCase):
 
     def test_local_edits_block_update_without_mutation(self):
         self.install()
-        (self.root / '.specify/templates/spec.md').write_text('edited')
+        (self.root / '.specify/templates/spec.md').write_text('edited', encoding='utf-8')
         before = snapshot(self.root)
         self.cli('update', '--apply', success=False)
         self.assertEqual(snapshot(self.root), before)
@@ -127,29 +127,29 @@ class StarterTests(unittest.TestCase):
     def test_stale_manifest_rejected(self):
         self.install()
         path = self.root / '.specify/manifest.json'
-        data = json.loads(path.read_text())
+        data = json.loads(path.read_text(encoding='utf-8'))
         data['release_sha256'] = '0'*64
-        path.write_text(json.dumps(data))
+        path.write_text(json.dumps(data), encoding='utf-8')
         self.cli('update', success=False)
 
     def test_manifest_traversal_rejected(self):
         self.install()
         path = self.root / '.specify/manifest.json'
-        data = json.loads(path.read_text())
+        data = json.loads(path.read_text(encoding='utf-8'))
         data['files']['../outside'] = '0'*64
-        path.write_text(json.dumps(data))
+        path.write_text(json.dumps(data), encoding='utf-8')
         self.cli('update', success=False)
 
     def test_install_lock_blocks_apply_but_dry_run_remains_read_only(self):
-        (self.root / '.specify-install.lock').write_text('active')
+        (self.root / '.specify-install.lock').write_text('active', encoding='utf-8')
         self.cli('install')
         self.cli('install', '--apply', success=False)
-        self.assertEqual((self.root / '.specify-install.lock').read_text(), 'active')
+        self.assertEqual((self.root / '.specify-install.lock').read_text(encoding='utf-8'), 'active')
 
     def test_release_tamper_rejected(self):
         bundle = Path(self.temp.name) / 'bundle'
         shutil.copytree(ROOT / 'kit', bundle)
-        (bundle / 'templates/spec.md').write_text('tamper')
+        (bundle / 'templates/spec.md').write_text('tamper', encoding='utf-8')
         self.cli('install', '--apply', source=bundle / 'specctl.py', success=False)
         self.assertEqual(list(self.root.iterdir()), [])
 
@@ -158,9 +158,9 @@ class StarterTests(unittest.TestCase):
         bundle = Path(self.temp.name) / 'bundle'
         shutil.copytree(ROOT / 'kit', bundle)
         source = bundle / 'specctl.py'
-        source.write_text(source.read_text().replace('VERSION = "0.1.0"','VERSION = "0.1.1"'))
-        (bundle / 'templates/spec.md').write_text('Nueva plantilla\n')
-        release = json.loads((bundle / 'release.json').read_text())
+        source.write_text(source.read_text(encoding='utf-8').replace('VERSION = "0.1.0"','VERSION = "0.1.1"'), encoding='utf-8')
+        (bundle / 'templates/spec.md').write_text('Nueva plantilla\n', encoding='utf-8')
+        release = json.loads((bundle / 'release.json').read_text(encoding='utf-8'))
         release['version'] = '0.1.1'
         release['files'] = {name: hashlib.sha256((bundle / name).read_bytes()).hexdigest() for name in release['files']}
         (bundle / 'release.json').write_bytes(specctl.json_bytes(release))
@@ -168,7 +168,7 @@ class StarterTests(unittest.TestCase):
         self.cli('update', source=source)
         self.assertEqual(snapshot(self.root), before)
         self.cli('update', '--apply', source=source)
-        self.assertEqual((self.root / '.specify/templates/spec.md').read_text(), 'Nueva plantilla\n')
+        self.assertEqual((self.root / '.specify/templates/spec.md').read_text(encoding='utf-8'), 'Nueva plantilla\n')
         self.cli('update', success=False)  # old CLI cannot downgrade 0.1.1
 
     def test_new_feature_dry_run_and_collision(self):
@@ -190,10 +190,10 @@ class StarterTests(unittest.TestCase):
     def test_invalid_specs_dir(self):
         self.install()
         config_path = self.root / '.specify/project.json'
-        config = json.loads(config_path.read_text())
+        config = json.loads(config_path.read_text(encoding='utf-8'))
         for unsafe in ('../outside', '/tmp', '.git/specs', '.specify/specs', 'a\\b'):
             config['specs_dir'] = unsafe
-            config_path.write_text(json.dumps(config))
+            config_path.write_text(json.dumps(config), encoding='utf-8')
             self.cli('validate', success=False)
 
     @unittest.skipUnless(hasattr(os, 'symlink') and os.name != 'nt', 'symlink privileges vary on Windows')
@@ -248,7 +248,7 @@ class StarterTests(unittest.TestCase):
         data['requirements'][0]['statment'] = 'typo'
         self.save_spec(directory, data)
         self.cli('validate', success=False)
-        (directory / 'spec.json').write_text('{"id":"a","id":"b"}')
+        (directory / 'spec.json').write_text('{"id":"a","id":"b"}', encoding='utf-8')
         self.cli('validate', success=False)
 
     def test_duplicate_and_dangling_ids(self):
